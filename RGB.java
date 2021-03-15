@@ -1,32 +1,30 @@
-
 public class RGB
 {
-    double luminosidade;
-    float red;
-    float blue;
-    float green;
+    private float red;
+    private float blue;
+    private float green;
     
-    float getR(){
+    public float getR(){
         return this.red;
     }
     
-    void setR(int r){
+    public void setR(float r){
         this.red = r;
     }
     
-    float getG(){
+    public float getG(){
         return this.green;
     }
     
-    void setG(float g){
+    public void setG(float g){
         this.green= g;
     }
     
-    float getB(){
+    public float getB(){
         return this.blue;
     }
     
-    void setB(int b){
+    public void setB(float b){
         this.blue = b;
     }
     
@@ -35,3 +33,4 @@ public class RGB
     //return Math.round(luminosidade);
     //}
 }
+
