@@ -28,9 +28,9 @@ public class RGB
         this.blue = b;
     }
     
-    //int getLuminosidade(){
-//double luminosidade=(this.getR()*0.3 + this.getG()*0.59 + this.getB()*0.11)/255);
-    //return Math.round(luminosidade);
-    //}
+    int getLuminosidade(){
+        double luminosidade = (this.getR()*0.3 + this.getG()*0.59 + this.getB()*0.11)/255;
+        return (int) Math.round(luminosidade);
+    }
 }
 
