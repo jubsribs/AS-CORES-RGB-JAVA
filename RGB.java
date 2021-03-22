@@ -4,6 +4,20 @@ public class RGB
     private int blue;
     private int green;
     
+    public  RGB(RGB cor){//Construtor Copia
+        
+        this.red=cor.getR();
+        this.blue=cor.getB();
+        this.green=cor.getG();
+    
+    }
+    public  RGB(){ //Construtor Cor Preta
+        
+        this.red=cor.getR(0);
+        this.blue=cor.getB(0);
+        this.green=cor.getG(0);
+    
+    }
     public int getR(){
         return this.red;
     }
