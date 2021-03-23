@@ -51,5 +51,11 @@ public class RGB
         String hex = "#"+Integer.toHexString(this.getR())+Integer.toHexString(this.getG())+Integer.toHexString(this.getB());
         return hex.toUpperCase();
     }
+         public void VerificarCor(RGB cor2){
+    
+        if(this.red == cor2.getR() && this.blue == cor2.getB() && this.green == cor2.getG() ){
+        System.out.println("A COR SAO IGUAIS");
+        }
+    }
 }
 
