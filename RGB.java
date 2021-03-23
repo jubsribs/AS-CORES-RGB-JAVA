@@ -13,9 +13,9 @@ public class RGB
     }
     public  RGB(){ //Construtor Cor Preta
         
-        this.red=cor.getR(0);
-        this.blue=cor.getB(0);
-        this.green=cor.getG(0);
+        this.red = 0;
+        this.blue = 0;
+        this.green = 0;
     
     }
     public int getR(){
