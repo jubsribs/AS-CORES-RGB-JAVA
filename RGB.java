@@ -18,6 +18,13 @@ public class RGB
         this.green = 0;
     
     }
+    public  RGB (int r , int b, int g){ //Construtor CriarCor
+        
+        this.red = r;
+        this.blue = b;
+        this.green = g;
+        
+    }
     public int getR(){
         return this.red;
     }
