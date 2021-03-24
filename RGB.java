@@ -21,7 +21,7 @@ public class RGB {
         this.green = g;
     }
     
-      public RGB retornaInstanciaCorAtual() {
+   public RGB retornaInstanciaCorAtual() {
         RGB cor = new RGB(this.getR(), this.getB(), this.getG());
         
         return cor;
