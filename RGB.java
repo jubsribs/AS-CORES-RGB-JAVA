@@ -21,6 +21,12 @@ public class RGB {
         this.green = g;
     }
     
+      public RGB retornaInstanciaCorAtual() {
+        RGB cor = new RGB(this.getR(), this.getB(), this.getG());
+        
+        return cor;
+    }
+    
     public int getR(){
         return this.red;
     }
@@ -47,10 +53,6 @@ public class RGB {
         if(this.getR() == cor2.getR() && this.getB() == cor2.getB() && this.getG() == cor2.getG()) {
             System.out.println("A CORES SAO IGUAIS");
         }
-        public RGB retornaInstanciaCorAtual() {
-        RGB cor = new RGB(this.getR(), this.getB(), this.getG());
         
-        return cor;
-    }
 }
 
