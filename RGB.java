@@ -1,28 +1,28 @@
 public class RGB {
     private int red;
-    private int blue;
     private int green;
+    private int blue;
     
     public RGB(RGB cor) {//Construtor Copia
         this.red = cor.getR();
-        this.blue = cor.getB();
         this.green = cor.getG();
+        this.blue = cor.getB();
     }
     
     public RGB() { //Construtor Cor Preta
         this.red = 0;
-        this.blue = 0;
         this.green = 0;
+        this.blue = 0;
     }
     
-    public RGB (int r , int b, int g) { //Construtor CriarCor
+    public RGB (int r, int g, int b) { //Construtor CriarCor
         this.red = r;
-        this.blue = b;
         this.green = g;
+        this.blue = b;
     }
     
    public RGB retornaInstanciaCorAtual() {
-        RGB cor = new RGB(this.getR(), this.getB(), this.getG());
+        RGB cor = new RGB(this.getR(), this.getG(), this.getB());
         
         return cor;
     }
@@ -40,8 +40,8 @@ public class RGB {
     }
     
     public int getLuminosidade() {
-        double luminosidade = (this.getR()*0.3 + this.getG()*0.59 + this.getB()*0.11);
-        return (int) Math.round(luminosidade);
+        double luminosidade = (this.getR()*0.3 + this.getG()*0.59 + this.getB()*0.11)/255;
+        return (int) (luminosidade*100);
     }
     
     public String getHex(){
@@ -52,7 +52,19 @@ public class RGB {
     public void verificarCor(RGB cor2) {
         if(this.getR() == cor2.getR() && this.getB() == cor2.getB() && this.getG() == cor2.getG()) {
             System.out.println("A CORES SAO IGUAIS");
-        }
-        
+    }
+    
+    public void clarear(float p){
+        this.red = (int) (this.getR()*(1+p));
+        this.green = (int) (this.getG()*(1+p));
+        this.blue = (int) (this.getB()*(1+p));
+    }
+    
+    public void escurecer(float p){
+        this.red = (int) (this.getR()*(1-p));
+        this.green = (int) (this.getG()*(1-p));
+        this.blue = (int) (this.getB()*(1-p));
+    }
+    
 }
 
