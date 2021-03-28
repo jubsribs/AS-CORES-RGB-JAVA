@@ -16,9 +16,18 @@ public class RGB {
     }
     
     public RGB (int r, int g, int b) { //Construtor CriarCor
-        this.red = r;
-        this.green = g;
-        this.blue = b;
+        if(r<0 && r>255){
+            System.out.println("Erro");
+        }else{
+        this.red = r;}
+        if(g<0 && g>255){
+            System.out.println("Erro");
+        }else{
+        this.green = g;}
+        if(b<0 && b>255){
+            System.out.println("Erro");
+        }else{
+        this.blue = b;}
     }
     
    public RGB retornaInstanciaCorAtual() {
