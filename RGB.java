@@ -16,33 +16,39 @@ public class RGB {
     }
     
     public RGB (int r, int g, int b) { //Construtor CriarCor
-        if(r<0){
-           this.red = 0;
-        }else if(r>255){
-            this.red = 255;
-        }else{
-        this.red = r;
-        }
-        if(g<0){
-           this.green = 0;
-        }else if(g>255){
-            this.green = 255;
-        }else{
-        this.green = g;
-        }
-        if(b<0){
-           this.blue = 0;
-        }else if(b>255){
-            this.blue = 255;
-        }else{
-        this.blue = b;
-        }
+        this.setRGB(r,g,b);
     }
     
    public RGB retornaInstanciaCorAtual() {
         RGB cor = new RGB(this.getR(), this.getG(), this.getB());
         
         return cor;
+    }
+    
+    public setRGB(int r, int g, int b){//Altera os valores de R, G e B truncando p/ valores entre 0 e 255
+        if(r<0){
+            this.red = 0;
+        }else if(r>255){
+             this.red = 255;
+        }else{
+         this.red = r;
+        }
+        
+        if(g<0){
+            this.green = 0;
+        }else if(g>255){
+             this.green = 255;
+        }else{
+         this.green = g;
+         }
+        
+         if(b<0){
+            this.blue = 0;
+        }else if(b>255){
+             this.blue = 255;
+        }else{
+         this.blue = b;
+        }
     }
     
     public int getR(){
@@ -73,16 +79,21 @@ public class RGB {
     }
     
     public void clarear(float p){
-        this.red = (int) (this.getR()*(1+p));
-        this.green = (int) (this.getG()*(1+p));
-        this.blue = (int) (this.getB()*(1+p));
+        int r = (int) (this.getR()*(1+p));
+        int g = (int) (this.getG()*(1+p));
+        int b = (int) (this.getB()*(1+p));
+        this.setRGB(r,g,b);
     }
     
     public void escurecer(float p){
-        this.red = (int) (this.getR()*(1-p));
-        this.green = (int) (this.getG()*(1-p));
-        this.blue = (int) (this.getB()*(1-p));
+        int r = (int) (this.getR()*(1-p));
+        int g = (int) (this.getG()*(1-p));
+        int b = (int) (this.getB()*(1-p));
+        this.setRGB(r,g,b);
     }
     
+    public void turnGrey(){//converte a cor para seu equivalente em escala de cinza
+        int luminosidade = this.getLuminosidade();
+        setRGB(luminosidade,luminosidade,luminosidade);
+    }
 }
-
