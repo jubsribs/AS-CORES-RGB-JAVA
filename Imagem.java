@@ -10,7 +10,17 @@ public class Imagem {
             for(int j=0; j<largura; j++) 
                 this.imagem[i][j] = this.pixel; //preciso do estático branco de rgb
     }
-   
+
+    //constroi uma cópia idêntica (clone) da imagem repassada
+    public Imagem(Imagem original) {
+        int altura = original.imagem.lenght;
+        int largura = original.imagem[0].lenght;
+        this.imagem = new RGB[altura][largura];
+        
+        for(int i = 0; i< altura; i++)
+            for(int j=0; j<largura; j++)
+                this.imagem[i][j] = new RGB(original[i][j]);
+    }
     
     public void modificaPixelImagem(int x, int y, RGB pixel) {
         if(verificaSeDimensoesPassadasSeEnquandramNaImagem(1, 2))
@@ -29,7 +39,19 @@ public class Imagem {
         return false;
     }
     
-    
+    public Imagem criaNovaImagemCinza() {
+        Imagem imagemCinza = new Imagem(this);//kage bunshin no jutso!
+        
+        int altura = this.imagem.lenght;
+        int largura = this.imagem[0].lenght;
+        
+        //percorre a imagem convertendo cada pixel em seu relativo na escala de cinza
+        for(int i = 0; i<altura; i++) 
+            for(int j=0; j<largura; j++)
+                imagemCinza.imagem[i][j].turnGrey();
+        
+        return imagemCinza;
+    }
     
     public boolean verificaSeEhFragmento(Imagem img1, Imagem img2) {
         
