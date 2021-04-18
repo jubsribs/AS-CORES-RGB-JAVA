@@ -1,4 +1,9 @@
 public class RGB {
+    public static final RGB PRETA  = new RGB(0,0,0);
+    public static final RGB BRANCA = new RGB(255,255,255);
+    public static final RGB RED = new RGB(255,0,0);
+    public static final RGB GREEN = new RGB(0,255,0);
+    public static final RGB BLUE = new RGB(0,0,255);
     private int red;
     private int green;
     private int blue;
