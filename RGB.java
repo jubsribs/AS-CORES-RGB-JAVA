@@ -68,7 +68,7 @@ public class RGB {
     }
     
     public void verificarCor(RGB cor2) {
-        if(this.getR() == cor2.getR() && this.getB() == cor2.getB() && this.getG() == cor2.getG()) {
+        if(this.getR() == cor2.getR() && this.getB() == cor2.getB() && this.getG() == cor2.getG()) 
             System.out.println("A CORES SAO IGUAIS");
     }
     
