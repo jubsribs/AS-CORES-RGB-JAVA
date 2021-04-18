@@ -25,7 +25,7 @@ public class RGB {
         return cor;
     }
     
-    public setRGB(int r, int g, int b){//Altera os valores de R, G e B truncando p/ valores entre 0 e 255
+    private setRGB(int r, int g, int b){//Altera os valores de R, G e B truncando p/ valores entre 0 e 255
         if(r<0){
             this.red = 0;
         }else if(r>255){
