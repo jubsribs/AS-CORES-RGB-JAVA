@@ -4,7 +4,6 @@ public class Imagem {
     private int altura;
     private int largura;
     
-    
     public Imagem(int altura, int largura) {
         this.imagem = new RGB[altura][largura];
         this.altura=altura;
@@ -12,10 +11,10 @@ public class Imagem {
 
         for(int i = 0; i< altura; i++) 
             for(int j=0; j<largura; j++) 
-                this.imagem[i][j] = this.pixel; //preciso do estático branco de rgb
+                this.imagem[i][j] = RGB.BRANCA;
     }
     
-    //kage bunshin no jutso!
+    //kage bunshin no jutsu!
     public Imagem(Imagem original) {
         int altura = original.getAltura();
         int largura = original.getLargura();
@@ -31,20 +30,6 @@ public class Imagem {
                 this.imagem[i][j] = new RGB(original.getPixel(i,j));
     }
 
-    public int getAltura() {
-        return this.altura;
-    }
-
-    public int getLargura() {
-        return this.largura;
-    }
-
-    //retorna o pixel da posição indicada
-    public RGB getPixel(int x, int y){
-        //FALTAM VALIDAÇÕES
-        return this.imagem[x][y];
-    }
-
     //cria uma nova imagem identica e converte na escala de cinza
     public Imagem criaNovaImagemCinza() {
         Imagem imagemCinza = new Imagem(this);
@@ -57,7 +42,7 @@ public class Imagem {
     //converte cada pixel da imagem atual ao seu equivalente na escala de cinza
     public void greyScale() {
         for(int i = 0; i< altura; i++) 
-            for(int j=0; j<largura; j++)
+            for(int j=0; j< largura; j++)
                 this.imagem[i][j].turnGrey();
     }
     
@@ -78,16 +63,49 @@ public class Imagem {
         return false;
     }
     
-    public boolean verificaSeEhFragmento(Imagem img1, Imagem img2) {
+    public boolean verificaSeEhFragmento(Imagem img, Imagem fragmento) {
+        int alturaFragmento = fragmento.getAltura();
+        int larguraFragmento = fragmento.getLargura();
+        int alturaImagem = img.getAltura();
+        int larguraImagem = img.getLargura();
+        boolean ehFragmento = false;
         
+        
+        if(alturaFragmento <= alturaImagem 
+            && larguraFragmento <= larguraImagem) {
+            //for de girar imagem 
+            for(int girar = 0; girar < 3; girar++) {
+                //varredura imagem
+                for(int i = 0; i < larguraImagem; i++) {
+                    for(int j = 0; j < alturaImagem; j++) {
+                        //procura primeiro pixel igual
+                        if(img.imagem[i][j].getHex().equals(fragmento.imagem[0][0].getHex())) {
+                            ehFragmento = true;
+                            //começa comparaçao dos pixels
+                            if((i + larguraFragmento) <= larguraImagem ) {
+                                for(int a = i; a < (larguraFragmento + i); a++) {
+                                    for(int b = a; b < alturaFragmento; b++) {
+                                        if(!img.imagem[a][b].getHex().equals(fragmento.imagem[a][b].getHex())){
+                                            ehFragmento = false;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                girar90Graus();
+            }
+        }
+        return ehFragmento;
     }
-    
     
     //nesse caso vou passar 2 img, mas poderia passar um vetor de imgs
     private boolean comparaPixels(Imagem img1, Imagem img2) {
         for(int i = 0; i< img1.getAltura(); i++) {
             for(int j = 0; j< img1.getLargura(); j++)
-                if(img1.imagem[i][j].getHex() != img2.imagem[i][j].getHex()) //opcao do equals
+                if(!img1.imagem[i][j].getHex().equals(img2.imagem[i][j].getHex()))
                     return false;
         }
         
@@ -96,20 +114,15 @@ public class Imagem {
     
     //nesse caso vou passar 2 img, mas poderia passar um vetor de imgs
     private boolean comparaDimensaoImagens(Imagem img1, Imagem img2) {
-        if(img1.getAltura() == img2.getAltura() 
-            && img1.getLargura() == img2.getLargura())
-            return true;
-        return false;
+        return img1.getAltura() == img2.getAltura() 
+            && img1.getLargura() == img2.getLargura();
     }
     
     private boolean verificaSeDimensoesPassadasSeEnquandramNaImagem(int x, int y){
         int tamanhoHorizontal = this.getAltura();
         int tamanhoVertical = this.getLargura();
         
-        if(x > tamanhoHorizontal || y > tamanhoVertical)
-            return false;
-        
-        return true;
+        return x <= tamanhoHorizontal && y <= tamanhoVertical;
     }
 
     private void girar90Graus() {//gira a imagem 90° à esquerda\anti-horário
@@ -119,12 +132,28 @@ public class Imagem {
         int largura = this.getLargura();
         int k = 0;
         int l = largura-1;
+        
         for(int i = 0; i< altura; i++) {
-            for(int j=0; j<largura; j++){
-                this.imagem[i][j]= new RGB(imagemClone.getPixel(k,l));
+            for(int j=0; j< largura; j++){
+                this.imagem[i][j] = new RGB(imagemClone.getPixel(k,l));
                 k++;
             }
             l--;
+            k = 0;
         }
+    }
+    
+    public int getAltura() {
+        return this.altura;
+    }
+
+    public int getLargura() {
+        return this.largura;
+    }
+
+    //retorna o pixel da posição indicada
+    public RGB getPixel(int x, int y){
+        //FALTAM VALIDAÇÕES
+        return this.imagem[x][y];
     }
 }
