@@ -4,15 +4,6 @@ public class Imagem {
     private int altura;
     private int largura;
     
-    public Imagem(int altura, int largura) {
-        this.imagem = new RGB[altura][largura];
-        this.altura=altura;
-        this.largura=largura;
-
-        for(int i = 0; i< altura; i++) 
-            for(int j=0; j<largura; j++) 
-                this.imagem[i][j] = RGB.BRANCA;
-    }
     
     //kage bunshin no jutsu!
     public Imagem(Imagem original) {
