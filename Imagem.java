@@ -69,12 +69,12 @@ public class Imagem {
         int alturaImagem = img.getAltura();
         int larguraImagem = img.getLargura();
         boolean ehFragmento = false;
+        int girar = 0;
         
-        
-        if(alturaFragmento <= alturaImagem 
+        if(alturaFragmento <= alturaImagem
             && larguraFragmento <= larguraImagem) {
-            //for de girar imagem 
-            for(int girar = 0; girar < 3; girar++) {
+            //while de girar imagem 
+            while(girar < 3) {
                 //varredura imagem
                 for(int i = 0; i < larguraImagem; i++) {
                     for(int j = 0; j < alturaImagem; j++) {
@@ -96,6 +96,16 @@ public class Imagem {
                     }
                 }
                 girar90Graus();
+                girar++;
+            }
+        }
+        
+        //se houve algum giro na imagem
+        if (girar>0){
+            //girar novamente até retornar à posição inicial
+            while(girar<4){
+                girar90Graus();
+                girar++;
             }
         }
         return ehFragmento;
