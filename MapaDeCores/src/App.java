@@ -1,13 +1,15 @@
+import model.Cor;
 import model.Imagem;
-import model.Pixel;
+import model.sistemaCor.CMYK;
+import model.sistemaCor.RGB;
 
 public class App {
     public static void main(String[] args) {
-        Pixel pixel = new Pixel(0,0,0);
-        Imagem imagem = new Imagem(2,2);
+        Cor pretoRGB = new RGB();
+        Cor pretoCMYK = new CMYK();
 
 
-        System.out.println("PIXEL -> "+pixel);
-        System.out.println("IMAGEM -> "+imagem);
+        System.out.println("preto rgb " + pretoRGB);
+        System.out.println("preto cmyk " + pretoCMYK);
     }
 }
