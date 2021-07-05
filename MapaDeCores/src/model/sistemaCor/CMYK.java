@@ -3,12 +3,15 @@ package model.sistemaCor;
 import model.Cor;
 
 public class CMYK extends Cor {
+	    public static final CYMK CYAN  = new CYMK(0,255,255);
+    	public static final CYMK MAGENTA  = new CYMK(255,0,255);
+    	public static final CYMK YELLOW = new CYMK(255,255,0);
+    	public static final CYMK KEY = new CYMK(0,0,0,100);
+   
     private int cyan;
     private int magenta;
     private int yellow;
     private int key;
-
-
     public CMYK(CMYK cmyk) {
         this.cyan = cmyk.getCyan();
         this.magenta = cmyk.getMagenta();
