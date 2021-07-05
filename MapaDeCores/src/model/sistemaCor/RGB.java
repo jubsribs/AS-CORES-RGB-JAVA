@@ -142,9 +142,9 @@ public class RGB extends Cor {
         if(cor instanceof RGB) return cor;
 
         CMYK novaCor = (CMYK) cor;
-        int R = (int) Math.round(255 * ((1 - novaCor.getCyan()) / 100.0) * ((1 - novaCor.getKey()) / 100.0));
-        int G = (int) Math.round(255 * ((1 - novaCor.getMagenta()) / 100.0) * ((1 - novaCor.getKey()) / 100.0));
-        int B = (int) Math.round(255 * ((1 - novaCor.getYellow()) / 100.0) * ((1 - novaCor.getKey()) / 100.0));
+        int R = (int) Math.round(255 * (1 - (novaCor.getCyan() / 100.0)) * (1 - (novaCor.getKey() / 100.0));
+        int G = (int) Math.round(255 * (1 - (novaCor.getMagenta() / 100.0)) * (1 - (novaCor.getKey() / 100.0));
+        int B = (int) Math.round(255 * (1 - (novaCor.getYellow() / 100.0)) * (1 - (novaCor.getKey() / 100.0));
 
         return new RGB(R, G, B);
     }
