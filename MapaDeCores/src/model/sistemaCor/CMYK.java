@@ -3,6 +3,11 @@ package model.sistemaCor;
 import model.Cor;
 
 public class CMYK extends Cor {
+	    public static final CYMK CYAN  = new CYMK(100, 0, 0, 0);
+    	public static final CYMK MAGENTA  = new CYMK(0, 100, 0, 0);
+    	public static final CYMK YELLOW = new CYMK(0, 0, 100, 0);
+    	public static final CYMK KEY = new CYMK(0,0,0,100);
+   
     private int cyan;
     private int magenta;
     private int yellow;
