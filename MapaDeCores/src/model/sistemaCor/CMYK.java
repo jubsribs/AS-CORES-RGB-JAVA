@@ -120,12 +120,22 @@ public class CMYK extends Cor {
 
     @Override
     public void clarear(float p) {
-        //TODO
+    	if(p>1) {
+    		this.setK(0);
+    	}
+    	else if (p>0) {
+    		this.setK((int)(this.getKey()*(0+p)));
+    	}
     }
 
     @Override
     public void escurecer(float p) {
-        //TODO
+    	if(p>1) {
+    		this.setK(this.getKey()*(2));
+    	}
+    	else if (p>0) {
+    		this.setK((int)(this.getKey()*(1+p)));
+        }
     }
 
     public int getCyan() {
