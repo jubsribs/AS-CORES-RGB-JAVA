@@ -19,10 +19,10 @@ public class Imagem {
         int altura = original.getAltura();
         int largura = original.getLargura();
 
-        //cria imagem com as mesmas dimensões
+        //cria imagem com as mesmas dimensÃµes
         this.imagem = new Cor[altura][largura];
 
-        //copia conteúdo da original
+        //copia conteÃºdo da original
         for(int i = 0; i< altura; i++)
             for(int j=0; j<largura; j++)
                 this.imagem[i][j] = original.getPixel(i,j);
@@ -52,38 +52,27 @@ public class Imagem {
                 this.imagem[i][j]=this.imagem[i][j].getGrey();
     }*/
     
-    //verifica se a imagem possui uma porcentagem m�nima de pixels com a faixa de luminosidade indicada
-    public boolean matchesPercent(int luminosidadeMin, int luminosidadeMax, double pctMinimo) {
+    //verifica se a imagem possui uma porcentagem mínima de pixels com a faixa de luminosidade indicada
+    public boolean matchesPercent(Cor cor,double pctMinimo, double limiarSimilaridade) {
     	int matches = 0;
+    	
     	//percorre linha
     	for(int i=0;i<this.imagem.length;i++) {
     		//percorre coluna
     		for(int j=0;j<this.imagem[0].length;j++) {
-    			
-    			//faz upcast
-    			if (imagem[i][j] instanceof RGB) {
-    				RGB corRGB = (RGB) imagem[i][j];
-    				//verifica se d� match
-    				if (corRGB.getLuminosidade()<=luminosidadeMax & corRGB.getLuminosidade()>=luminosidadeMin)
+    			if (imagem[i][j].ehSimilar(cor,limiarSimilaridade))
         				matches++;
-    			}else if (imagem[i][j] instanceof CMYK) {
-    				CMYK corCMYK = (CMYK) imagem[i][j];
-    				
-    				//verifica se d� match
-        			if (corCMYK.getLuminosidade()<=luminosidadeMax & corCMYK.getLuminosidade()>=luminosidadeMin)
-        				matches++;
-    			}
     		}
     	}
     	
     	//calcula a percentagem de matches
     	double pctMatch = matches/(imagem.length*imagem[0].length);
     	
-    	//verifica se a percentagem de matches atende ao percentual m�nimo
-    	if (pctMatch<pctMinimo)
-    		return false;
-    	else
+    	//verifica se a percentagem de matches atende ao percentual mínimo
+    	if (pctMatch>=pctMinimo)
     		return true;
+    	else
+    		return false;
     }
 
     public void modificaPixelImagem(int x, int y, Cor cor) {
@@ -121,7 +110,7 @@ public class Imagem {
                         //procura primeiro pixel igual
                         if(img.imagem[i][j].toString().equals(fragmento.imagem[0][0].toString())) {
                             ehFragmento = true;
-                            //começa comparaçao dos pixels
+                            //comeÃ§a comparaÃ§ao dos pixels
                             if((i + larguraFragmento) <= larguraImagem ) {
                                 for(int a = i; a < (larguraFragmento + i); a++) {
                                     for(int b = a; b < alturaFragmento; b++) {
@@ -142,7 +131,7 @@ public class Imagem {
 
         //se houve algum giro na imagem
         if (girar>0){
-            //girar novamente até retornar à posição inicial
+            //girar novamente atÃ© retornar Ã  posiÃ§Ã£o inicial
             while(girar<4){
                 girar90Graus();
                 girar++;
