@@ -3,12 +3,12 @@ package model.sistemaCor;
 import model.Cor;
 
 public class CMYK extends Cor {
-	public class CMYK extends Cor {
-	public static final CYMK PRETA  = new CYMK(0, 0, 0, 100);
-    	public static final CYMK BRANCA = new CYMK(0, 0, 0, 0);
-    	public static final CYMK RED = new CYMK(0, 100, 100, 0);
-    	public static final CYMK GREEN = new CYMK(100, 0, 100, 0);
-    	public static final CYMK BLUE = new CYMK(100, 100, 0, 0);
+
+    public static final CMYK PRETA  = new CMYK(0, 0, 0, 100);
+    public static final CMYK BRANCA = new CMYK(0, 0, 0, 0);
+    public static final CMYK RED = new CMYK(0, 100, 100, 0);
+    public static final CMYK GREEN = new CMYK(100, 0, 100, 0);
+    public static final CMYK BLUE = new CMYK(100, 100, 0, 0);
     private int cyan;
     private int magenta;
     private int yellow;
