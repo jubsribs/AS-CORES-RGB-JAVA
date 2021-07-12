@@ -4,97 +4,63 @@ import conversor.Conversor;
 import model.sistemaCor.RGB;
 import model.sistemaCor.CMYK;
 
-public class Imagem {
-    private Cor imagem[][];
+import java.awt.*;
+import java.io.Serializable;
+
+public abstract class Imagem implements Serializable {
+    private Cor[][] cores;
 
     public Imagem(int altura, int largura) {
-        this.imagem = new Cor[altura][largura];
-
-        for(int i = 0; i< altura; i++)
-            for(int j=0; j<largura; j++)
-                this.imagem[i][j] = Cor.BRANCA;
+        this.cores = new Cor[altura][largura];
     }
 
     public Imagem(Imagem original) {
         int altura = original.getAltura();
         int largura = original.getLargura();
 
-        //cria imagem com as mesmas dimensões
-        this.imagem = new Cor[altura][largura];
+        this.cores = new Cor[altura][largura];
 
-        //copia conteúdo da original
         for(int i = 0; i< altura; i++)
             for(int j=0; j<largura; j++)
-                this.imagem[i][j] = original.getPixel(i,j);
+                this.cores[i][j] = original.getPixel(i,j);
     }
 
-    /*public Imagem criaNovaImagemCinza() {
-        Imagem imagemCinza = new Imagem(this);
-
-        imagemCinza.greyScale();
-
-        return imagemCinza;
-    }*/
-
-    /**
-     * @param imagemOriginal -> indica a imagem que vai ser convertida
-     * @param corConversao -> indica o sistema de cor para qual a imagem deve ser convertida
-     * @return -> retorna uma imagem nova com os pixels do tipo passado por parametro
-     */
-    public Imagem converteImagemParaOutroSistema(Imagem imagemOriginal, Cor corConversao) {
-        return new Conversor().converter(imagemOriginal, corConversao);
-    }
-
-    //converte cada pixel da imagem atual ao seu equivalente na escala de cinza
-    /*public void greyScale() {
-        for(int i = 0; i < this.getAltura(); i++)
-            for(int j=0; j< this.getLargura(); j++)
-                this.imagem[i][j]=this.imagem[i][j].getGrey();
-    }*/
-    
-    //verifica se a imagem possui uma porcentagem m�nima de pixels com a faixa de luminosidade indicada
-    public boolean matchesPercent(int luminosidadeMin, int luminosidadeMax, double pctMinimo) {
+    public boolean matchesPercent(Cor cor,double pctMinimo, double limiarSimilaridade) {
     	int matches = 0;
+
     	//percorre linha
-    	for(int i=0;i<this.imagem.length;i++) {
+    	for(int i=0;i<this.cores.length;i++) {
     		//percorre coluna
-    		for(int j=0;j<this.imagem[0].length;j++) {
-    			
-    			//faz upcast
-    			if (imagem[i][j] instanceof RGB) {
-    				RGB corRGB = (RGB) imagem[i][j];
-    				//verifica se d� match
-    				if (corRGB.getLuminosidade()<=luminosidadeMax & corRGB.getLuminosidade()>=luminosidadeMin)
+    		for(int j=0;j<this.cores[0].length;j++) {
+    			if (cores[i][j].ehSimilar(cor,limiarSimilaridade))
         				matches++;
-    			}else if (imagem[i][j] instanceof CMYK) {
-    				CMYK corCMYK = (CMYK) imagem[i][j];
-    				
-    				//verifica se d� match
-        			if (corCMYK.getLuminosidade()<=luminosidadeMax & corCMYK.getLuminosidade()>=luminosidadeMin)
-        				matches++;
-    			}
     		}
     	}
     	
     	//calcula a percentagem de matches
-    	double pctMatch = matches/(imagem.length*imagem[0].length);
+    	double pctMatch = matches/(cores.length*cores[0].length);
     	
-    	//verifica se a percentagem de matches atende ao percentual m�nimo
-    	if (pctMatch<pctMinimo)
-    		return false;
-    	else
-    		return true;
+    	//verifica se a percentagem de matches atende ao percentual mÃ­nimo
+    	return pctMatch>=pctMinimo;
     }
+    
+    //retorna a percentagem de similaridade (prevalencia de uma cor especifica na imagem)
+    public double similaridade(Cor cor) {
+    	int matches = 0;
 
-    public void modificaPixelImagem(int x, int y, Cor cor) {
-        if(verificaSeDimensoesPassadasSeEnquandramNaImagem(1, 2))
-            this.imagem[x][y] = cor;
+    	for(int i=0;i<this.cores.length;i++) {//percorre linha
+    		for(int j=0;j<this.cores[0].length;j++) {//percorre coluna
+    			if (cores[i][j].equals(cor))
+        				matches++;//incrementa os matches
+    		}
+    	
+    	}
+    	
+    	//calcula a percentagem de matches (0.01=1% | 1=100%)
+    	double pctMatch = matches/(cores.length*cores[0].length);
+    	
+    	return pctMatch;
     }
-
-    /*public void modificaPixelImagem(int x, int y, int R, int G, int B) {
-        this.pixel = new Pixel(R, G, B);
-        this.imagem[x][y] = this.pixel;
-    }*/
 
     public boolean verificaIgualdadeImagens(Imagem img1, Imagem img2) {
         if(comparaDimensaoImagens(img1, img2))
@@ -103,58 +69,10 @@ public class Imagem {
         return false;
     }
 
-    public boolean verificaSeEhFragmento(Imagem img, Imagem fragmento) {
-        int alturaFragmento = fragmento.getAltura();
-        int larguraFragmento = fragmento.getLargura();
-        int alturaImagem = img.getAltura();
-        int larguraImagem = img.getLargura();
-        boolean ehFragmento = false;
-        int girar = 0;
-
-        if(alturaFragmento <= alturaImagem
-                && larguraFragmento <= larguraImagem) {
-            //while de girar imagem
-            while(girar < 3) {
-                //varredura imagem
-                for(int i = 0; i < larguraImagem; i++) {
-                    for(int j = 0; j < alturaImagem; j++) {
-                        //procura primeiro pixel igual
-                        if(img.imagem[i][j].toString().equals(fragmento.imagem[0][0].toString())) {
-                            ehFragmento = true;
-                            //começa comparaçao dos pixels
-                            if((i + larguraFragmento) <= larguraImagem ) {
-                                for(int a = i; a < (larguraFragmento + i); a++) {
-                                    for(int b = a; b < alturaFragmento; b++) {
-                                        if(!img.imagem[a][b].toString().equals(fragmento.imagem[a][b].toString())){
-                                            ehFragmento = false;
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                girar90Graus();
-                girar++;
-            }
-        }
-
-        //se houve algum giro na imagem
-        if (girar>0){
-            //girar novamente até retornar à posição inicial
-            while(girar<4){
-                girar90Graus();
-                girar++;
-            }
-        }
-        return ehFragmento;
-    }
-
     private boolean comparaImagens(Imagem img1, Imagem img2) {
         for(int i = 0; i< img1.getAltura(); i++) {
             for(int j = 0; j< img1.getLargura(); j++)
-                if(!img1.imagem[i][j].toString().equals(img2.imagem[i][j].toString()))
+                if(!img1.cores[i][j].toString().equals(img2.cores[i][j].toString()))
                     return false;
         }
 
@@ -166,44 +84,61 @@ public class Imagem {
                 && img1.getLargura() == img2.getLargura();
     }
 
-    private boolean verificaSeDimensoesPassadasSeEnquandramNaImagem(int x, int y){
-        int tamanhoHorizontal = this.getAltura();
-        int tamanhoVertical = this.getLargura();
-
-        return x <= tamanhoHorizontal && y <= tamanhoVertical;
+    public boolean isFragmento(Imagem imagem) {
+        Imagem copia = imagem.clone();
+        for(int iCont = 0; iCont < 4; iCont++) {
+            if(this.fragmento(copia))
+                return true;
+            copia = copia.girar90();
+        }
+        return false;
     }
 
-    private void girar90Graus() {
-        Imagem imagemClone = new Imagem(this);
+    public Imagem clone() {
+        return this.recortar(0, 0, this.getAltura(), this.getLargura());
+    }
 
-        int altura = this.getAltura();
-        int largura = this.getLargura();
-        int k = 0;
-        int l = largura-1;
+    private boolean fragmento(Imagem imagem) {
+        for(int iCont = 0; iCont <= this.getAltura() - imagem.getAltura(); iCont++)
+            for(int jCont = 0; jCont <= this.getLargura() - imagem.getLargura(); jCont++)
+                if (this.recortar(iCont, jCont, imagem.getAltura(), imagem.getLargura()).equals(imagem))
+                    return true;
+        return false;
+    }
 
-        for(int i = 0; i< altura; i++) {
-            for(int j=0; j< largura; j++){
-                this.imagem[i][j] = imagemClone.getPixel(k,l);
-                k++;
-            }
-            l--;
-            k = 0;
-        }
+    public Imagem recortar(int x, int y, int hTam, int lTam) {
+        int altura = ((this.getAltura() - x) < hTam) ? (this.getAltura() - x) : hTam;
+        int largura = ((this.getLargura() - y) < lTam) ? (this.getLargura() - y) : lTam;
+
+        Imagem nova = null;
+        for(int iCont = x, iNova = 0; iCont < altura + x; iCont++, iNova++)
+            for(int jCont = y, jNova = 0; jCont < largura + y; jCont++, jNova++)
+                nova.setPixel(iNova, jNova, this.getPixel(iCont, jCont));
+        return nova;
+    }
+
+    public Imagem girar90() {
+        Imagem nova = null;
+
+        for(int jCont = 0; jCont < this.getLargura(); jCont++)
+            for(int iCont = this.getAltura() - 1, iNova = 0; iCont >= 0; iCont--, iNova++)
+                nova.setPixel(jCont, iNova, this.getPixel(iCont, jCont));
+        return nova;
     }
 
     public int getAltura() {
-        return this.imagem.length;
+        return this.cores.length;
     }
 
     public int getLargura() {
-        return this.imagem[0].length;
+        return this.cores[0].length;
     }
 
     public Cor getPixel(int x, int y){
-        return this.imagem[x][y];
+        return this.cores[x][y];
     }
 
     public void setPixel(int posY, int posX, Cor novaCor) {
-        this.imagem[posY][posX] = novaCor;
+        this.cores[posY][posX] = novaCor;
     }
 }

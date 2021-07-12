@@ -1,12 +1,12 @@
 package conversor;
 
-import interfaces.ConversorCor;
+import interfaces.IConversorCor;
 import model.Cor;
 import model.Imagem;
 
 public class Conversor {
 
-    public Imagem converter(Imagem imagem, ConversorCor conversor) {
+    public Imagem converter(Imagem imagem, IConversorCor conversor) {
         Imagem novo = conversor.getNovoMapa(imagem.getAltura(), imagem.getLargura());
 
         for(int iCont = 0; iCont < imagem.getAltura(); iCont++)
@@ -17,5 +17,6 @@ public class Conversor {
             }
         return novo;
     }
+    
 }
 
